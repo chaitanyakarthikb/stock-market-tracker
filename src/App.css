@@ -14,3 +14,9 @@
     border: 1px solid #ccc;
     border-radius: 0.25rem;
 }
+
+.autoCompleteSuggestions{
+    max-height: 200px;
+    overflow-y: scroll;
+    width: 72%;
+}
