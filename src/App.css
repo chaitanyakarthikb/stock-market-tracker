@@ -21,3 +21,14 @@
     overflow-y: scroll;
     width: 72%;
 }
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+    margin: 0.5rem auto 0;
+}
+
+.buttons button{
+    cursor: pointer;
+}
