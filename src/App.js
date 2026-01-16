@@ -31,29 +31,53 @@ const App = () => {
 
   useEffect(() => {
     console.log("item selected is ", selectedItem);
+    if (selectedItem) {
+      setSearchQuery(selectedItem.name);
+    }
   }, [selectedItem]);
+
+  const handleSearchButton = ()=>{
+    console.log("hello world, item selected is ",selectedItem)
+  }
 
   console.log("===============searchResults", searchResults);
 
   return (
     <div className="container">
+      
       <input
-        value={selectedItem?.name}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        value={searchQuery}
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          if (selectedItem) {
+            setSelectedItem(null);
+          }
+        }}
         className="search-input"
         type="text"
         placeholder="Search for a stock"
       />
+      <button onClick={()=>handleSearchButton()} className="search-button">Search</button>
+
+
+      
+      
       <div className="autoCompleteSuggestions">
         {!selectedItem &&
-          searchResults.map((el) => {
+          searchQuery.length > 2 &&
+          searchResults &&
+          searchResults.length > 0 &&
+          searchResults.map((el, index) => {
             return (
-              <AutoCompleteItem setSelectedItem={setSelectedItem} item={el} />
+              <AutoCompleteItem
+                key={`${el['1. symbol']}-${index}`}
+                setSelectedItem={setSelectedItem}
+                item={el}
+              />
             );
           })}
       </div>
 
-      <button className="search-button">Search</button>
     </div>
   );
 };
