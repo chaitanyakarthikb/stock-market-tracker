@@ -3,6 +3,7 @@ import "./App.css";
 // import {BSE, NSE, searchSymbol} from 'nse-bse-api';
 import { useEffect, useState } from "react";
 import AutoCompleteItem from "./components/AutoCompleteItem";
+import Chart from "./components/Chart";
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -44,7 +45,6 @@ const App = () => {
 
   return (
     <div className="container">
-      
       <input
         value={searchQuery}
         onChange={(e) => {
@@ -57,11 +57,10 @@ const App = () => {
         type="text"
         placeholder="Search for a stock"
       />
-      <button onClick={()=>handleSearchButton()} className="search-button">Search</button>
+      <button onClick={() => handleSearchButton()} className="search-button">
+        Search
+      </button>
 
-
-      
-      
       <div className="autoCompleteSuggestions">
         {!selectedItem &&
           searchQuery.length > 2 &&
@@ -70,7 +69,7 @@ const App = () => {
           searchResults.map((el, index) => {
             return (
               <AutoCompleteItem
-                key={`${el['1. symbol']}-${index}`}
+                key={`${el["1. symbol"]}-${index}`}
                 setSelectedItem={setSelectedItem}
                 item={el}
               />
@@ -78,6 +77,18 @@ const App = () => {
           })}
       </div>
 
+      <Chart/>
+      <div className="buttons">
+        <button>Last 3d</button>
+        <button>Last 1w</button>
+        <button>Last 3m</button>
+        <button>Last 6m</button>
+        <button>Last 1y</button>
+        <button>Last 3y</button>
+        <button>Last 5y</button>
+      </div>
+
+      
     </div>
   );
 };
