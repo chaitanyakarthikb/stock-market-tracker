@@ -8,21 +8,35 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedTimeInterval, setSelectedTimeInterval] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const API_URL = process.env.REACT_APP_ALPHA_VANTAGE_API_URL;
   const API_KEY = process.env.REACT_APP_ALPHA_VANTAGE_API_KEY;
 
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      if (searchQuery.length > 2) {
+      if (searchQuery.length >= 2) {
+        setLoading(true);
+        setError(null);
         try {
           const response = await fetch(
             API_URL +
               `?function=SYMBOL_SEARCH&keywords=${searchQuery}&apikey=${API_KEY}`
           );
+          console.log("=====response====", response);
           const data = await response.json();
+          console.log("=====data====", data);
+          if (data?.Information) {
+            throw new Error("Limit Reached");
+          }
+
           setSearchResults(data?.bestMatches);
+          setLoading(false);
         } catch (error) {
+          setError(error.message || "An error occurred while fetching data");
+          setLoading(false);
           console.error("============error============", error);
         }
       }
@@ -38,8 +52,10 @@ const App = () => {
   }, [selectedItem]);
 
   const handleSearchButton = ()=>{
-    console.log("hello world, item selected is ",selectedItem)
+    setSelectedTimeInterval("3d")
   }
+
+  let buttonValues = ["3d","1w","3m","6m","1y","3y","5y"]
 
   console.log("===============searchResults", searchResults);
 
@@ -62,6 +78,8 @@ const App = () => {
       </button>
 
       <div className="autoCompleteSuggestions">
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
         {!selectedItem &&
           searchQuery.length > 2 &&
           searchResults &&
@@ -76,19 +94,16 @@ const App = () => {
             );
           })}
       </div>
-
-      <Chart/>
+      <Chart selectedItem={selectedItem} selectedTimeInterval={selectedTimeInterval}/>
       <div className="buttons">
-        <button>Last 3d</button>
-        <button>Last 1w</button>
-        <button>Last 3m</button>
-        <button>Last 6m</button>
-        <button>Last 1y</button>
-        <button>Last 3y</button>
-        <button>Last 5y</button>
+        {buttonValues.map((btnValue)=>{
+          return (
+            <button className={selectedTimeInterval === btnValue ? "active" : ""} onClick={()=>{
+              setSelectedTimeInterval(btnValue)
+            }}>Last {btnValue}</button>
+          ) 
+        })}
       </div>
-
-      
     </div>
   );
 };

@@ -23,12 +23,30 @@
 }
 
 .buttons{
-    display: flex;
-    justify-content: space-evenly;
+    margin: 1rem auto 0;
     width: 50%;
-    margin: 0.5rem auto 0;
+    display: flex;
+    justify-content: space-around;
 }
-
 .buttons button{
     cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: white;
+    transition: all 0.2s;
+}
+
+.buttons button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.buttons button:hover {
+    background-color: #f0f0f0;
+}
+
+.buttons button.active:hover {
+    background-color: #0056b3;
 }
