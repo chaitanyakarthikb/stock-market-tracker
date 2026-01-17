@@ -1,5 +1,9 @@
 .chart{
-    background-color: rgb(171, 201, 226);
+    /* background-color: rgb(171, 201, 226); */
     position: inherit;
     height: 500px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
 }
+
